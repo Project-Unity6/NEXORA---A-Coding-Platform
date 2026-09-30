@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forge — Premium Coding Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:     #111110;
+  --ink-2:   #3A3935;
+  --ink-3:   #6B6860;
+  --ink-4:   #9A9790;
+  --paper:   #FAFAF8;
+  --warm:    #F3F0EA;
+  --warm-2:  #EAE6DE;
+  --border:  #DDD9D0;
+  --gold:    #9B7D47;
+  --gold-l:  #C4A46B;
+  --gold-bg: #FBF6EE;
+
+  --syn-kw:  #7C5CBF;
+  --syn-fn:  #1D6FA3;
+  --syn-str: #2E8B57;
+  --syn-num: #C0392B;
+  --syn-cmt: #9A9790;
+  --syn-typ: #B06000;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── NAVBAR ─── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 60px;
+  background: rgba(250,250,248,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 1.25rem;
+  letter-spacing: -0.04em; color: var(--ink);
+  text-decoration: none; display: flex; align-items: center; gap: 10px;
+}
+.logo-mark {
+  width: 28px; height: 28px;
+  background: var(--ink);
+  border-radius: 6px;
+  display: grid; place-items: center;
+  font-size: 14px; color: var(--paper);
+}
+.logo-sub { color: var(--gold); }
+
+.nav-links {
+  display: flex; gap: 32px; list-style: none;
+}
+.nav-links a {
+  font-size: 0.825rem; font-weight: 500;
+  color: var(--ink-3); text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--ink); }
+
+.nav-right { display: flex; align-items: center; gap: 10px; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 18px; border-radius: 6px;
+  font-family: 'Inter', sans-serif; font-size: 0.825rem; font-weight: 600;
+  cursor: pointer; border: none; text-decoration: none;
+  transition: all 0.15s; letter-spacing: 0.01em;
+}
+.btn-line {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink-2);
+}
+.btn-line:hover { border-color: var(--ink-3); color: var(--ink); background: var(--warm); }
+
+.btn-dark {
+  background: var(--ink); color: var(--paper);
+  border: 1px solid var(--ink);
+}
+.btn-dark:hover { background: var(--ink-2); }
+
+/* ─── HERO ─── */
+.hero {
+  padding-top: 60px;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-left {
+  padding: 80px 64px 80px 48px;
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; justify-content: center;
+}
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-bottom: 28px;
+}
+.eyebrow-dot {
+  width: 7px; height: 7px;
+  background: var(--gold); border-radius: 50%;
+}
+.eyebrow-text {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--gold);
+}
+
+.hero-h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.8rem, 4.5vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+.hero-h1 em {
+  font-style: normal;
+  color: var(--gold);
+}
+
+.hero-body {
+  font-size: 1rem; color: var(--ink-3);
+  line-height: 1.7; max-width: 420px; margin-bottom: 44px;
+}
+
+.hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+.btn-lg { padding: 12px 28px; font-size: 0.9rem; border-radius: 8px; }
+
+.hero-proof {
+  margin-top: 48px; padding-top: 36px;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 40px;
+}
+.proof-item {}
+.proof-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.8rem; font-weight: 800;
+  letter-spacing: -0.04em; color: var(--ink);
+}
+.proof-label { font-size: 0.78rem; color: var(--ink-4); margin-top: 2px; }
+
+/* ─── HERO RIGHT: CODE PANEL ─── */
+.hero-right {
+  background: var(--warm);
+  display: flex; flex-direction: column;
+  min-height: calc(100vh - 60px);
+}
+
+.panel-tabs {
+  display: flex; border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+}
+.panel-tab {
+  padding: 14px 16px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem; color: var(--ink-4);
+  border-bottom: 2px solid transparent;
+  cursor: pointer; transition: all 0.15s;
+  margin-bottom: -1px;
+}
+.panel-tab.active {
+  color: var(--ink);
+  border-bottom-color: var(--gold);
+}
+
+.panel-body { flex: 1; display: flex; flex-direction: column; padding: 28px; gap: 16px; }
+
+/* Problem card */
+.problem-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.problem-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.problem-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem; font-weight: 700; letter-spacing: -0.01em;
+}
+.difficulty {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.06em;
+  text-transform: uppercase; padding: 3px 9px;
+  border-radius: 4px; font-weight: 500;
+}
+.diff-med { background: #FFF3DC; color: #92600A; border: 1px solid #EDD99A; }
+.diff-hard { background: #FFE8E8; color: #9B1C1C; border: 1px solid #FBBABA; }
+.diff-easy { background: #E8F5E8; color: #166534; border: 1px solid #86EFAC; }
+
+.problem-tags {
+  display: flex; gap: 6px; padding: 10px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem; padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 3px; color: var(--ink-3);
+}
+
+.problem-desc {
+  padding: 16px 18px; font-size: 0.8rem; color: var(--ink-2);
+  line-height: 1.7;
+}
+
+/* Code editor */
+.code-editor {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden;
+  flex: 1;
+}
+.editor-bar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--warm-2);
+}
+.traffic { display: flex; gap: 6px; }
+.traffic span { width: 11px; height: 11px; border-radius: 50%; }
+.t-r { background: #FF6059; }
+.t-a { background: #FEBC2E; }
+.t-g { background: #28C840; }
+.editor-fname {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem; color: var(--ink-3);
+  margin-left: 6px;
+}
+.run-btn {
+  margin-left: auto;
+  background: var(--ink); color: var(--paper);
+  border: none; border-radius: 5px;
+  padding: 5px 14px; cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem; display: flex; align-items: center; gap: 6px;
+  transition: background 0.15s;
+}
+.run-btn:hover { background: var(--ink-2); }
+
+.code-area {
+  padding: 18px 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem; line-height: 1.75;
+}
+.cl { display: flex; }
+.ln { width: 40px; text-align: right; padding-right: 18px; color: var(--ink-4); flex-shrink: 0; user-select: none; }
+.cc { flex: 1; padding-right: 20px; }
+.kw { color: var(--syn-kw); }
+.fn { color: var(--syn-fn); }
+.st { color: var(--syn-str); }
+.nm { color: var(--syn-num); }
+.cm { color: var(--syn-cmt); font-style: italic; }
+.ty { color: var(--syn-typ); }
+.cu { display: inline-block; width: 1.5px; height: 0.9em; background: var(--ink); animation: blink 1s step-end infinite; vertical-align: text-bottom; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* AI bubble */
+.ai-bubble {
+  background: var(--gold-bg);
+  border: 1px solid #DDC99A;
+  border-radius: 10px; padding: 14px 16px;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.ai-avatar {
+  width: 28px; height: 28px; flex-shrink: 0;
+  background: var(--ink); border-radius: 6px;
+  display: grid; place-items: center;
+  font-size: 13px; color: var(--paper);
+}
+.ai-text {
+  font-size: 0.78rem; color: var(--ink-2); line-height: 1.6;
+}
+.ai-text strong { color: var(--ink); font-weight: 600; }
+
+/* ─── USP STRIP ─── */
+.usp-strip {
+  background: var(--ink);
+  color: var(--paper);
+  display: flex;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A28;
+}
+.usp-block {
+  flex: 1; padding: 48px 48px;
+  border-right: 1px solid #2A2A28;
+  position: relative;
+}
+.usp-block:last-child { border-right: none; }
+.usp-kicker {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--gold-l);
+  margin-bottom: 16px;
+}
+.usp-head {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem; font-weight: 800;
+  letter-spacing: -0.03em; line-height: 1.2;
+  margin-bottom: 12px;
+  color: var(--paper);
+}
+.usp-head span { color: var(--gold-l); }
+.usp-body {
+  font-size: 0.85rem;
+  color: #888680;
+  line-height: 1.7; max-width: 320px;
+}
+.usp-tag {
+  margin-top: 24px;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(155,125,71,0.15);
+  border: 1px solid rgba(155,125,71,0.3);
+  border-radius: 5px; padding: 6px 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem; color: var(--gold-l);
+  letter-spacing: 0.04em;
+}
+
+/* ─── FEATURE ROWS ─── */
+.features-wrap {
+  max-width: 1200px; margin: 0 auto;
+  padding: 100px 48px;
+}
+.feat-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden;
+  margin-bottom: 1px;
+}
+.feat-row:first-child { border-radius: 12px 12px 0 0; }
+.feat-row:last-child  { border-radius: 0 0 12px 12px; }
+
+.feat-cell {
+  background: var(--paper);
+  padding: 40px 44px;
+  transition: background 0.15s;
+}
+.feat-cell:hover { background: var(--warm); }
+
+.feat-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.1em;
+  color: var(--gold); margin-bottom: 20px;
+}
+.feat-cell h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem; font-weight: 700;
+  letter-spacing: -0.02em; margin-bottom: 10px;
+}
+.feat-cell p { font-size: 0.85rem; color: var(--ink-3); line-height: 1.7; }
+
+/* ─── COMPARE TABLE ─── */
+.compare-wrap {
+  background: var(--warm);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 80px 48px;
+}
+.compare-inner { max-width: 860px; margin: 0 auto; }
+.section-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 16px;
+}
+.section-h {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 800;
+  letter-spacing: -0.04em; line-height: 1.1;
+  margin-bottom: 48px;
+}
+
+.compare-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.compare-table thead th {
+  padding: 12px 20px; text-align: left;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink-4);
+  border-bottom: 1px solid var(--border);
+}
+.compare-table thead th:not(:first-child) { text-align: center; }
+.compare-table tbody tr { border-bottom: 1px solid var(--border); }
+.compare-table tbody tr:last-child { border-bottom: none; }
+.compare-table tbody td {
+  padding: 14px 20px; color: var(--ink-2);
+}
+.compare-table tbody td:not(:first-child) { text-align: center; }
+.compare-table .col-forge { background: rgba(155,125,71,0.05); }
+.col-head {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 0.85rem;
+}
+.col-forge .col-head { color: var(--gold); }
+.check { color: #166534; font-size: 1.1rem; }
+.cross { color: #9A9790; font-size: 1.1rem; }
+.price-free {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 1.1rem; color: var(--gold);
+}
+.price-paid { font-size: 0.8rem; color: var(--ink-4); }
+
+/* ─── CTA ─── */
+.cta-wrap {
+  padding: 100px 48px;
+  text-align: center;
+}
+.cta-h {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3.6rem); font-weight: 800;
+  letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 20px;
+}
+.cta-h em { font-style: normal; color: var(--gold); }
+.cta-sub {
+  font-size: 0.95rem; color: var(--ink-3);
+  margin-bottom: 40px; max-width: 420px; margin-left: auto; margin-right: auto;
+}
+.cta-form {
+  display: flex; gap: 10px; justify-content: center; max-width: 420px; margin: 0 auto;
+}
+.cta-input {
+  flex: 1; padding: 12px 16px;
+  border: 1px solid var(--border); border-radius: 7px;
+  background: var(--paper); color: var(--ink);
+  font-family: 'Inter', sans-serif; font-size: 0.875rem;
+  outline: none; transition: border-color 0.15s;
+}
+.cta-input:focus { border-color: var(--gold); }
+.cta-input::placeholder { color: var(--ink-4); }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--warm);
+  border-top: 1px solid var(--border);
+  padding: 40px 48px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 16px;
+}
+.foot-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; letter-spacing: -0.03em; font-size: 1.05rem;
+}
+.foot-logo span { color: var(--gold); }
+.foot-copy { font-size: 0.75rem; color: var(--ink-4); margin-top: 4px; }
+.foot-links { display: flex; gap: 24px; flex-wrap: wrap; }
+.foot-links a { font-size: 0.78rem; color: var(--ink-3); text-decoration: none; }
+.foot-links a:hover { color: var(--ink); }
+
+/* ─── REVEAL ─── */
+.reveal {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.in { opacity: 1; transform: none; }
+.d1 { transition-delay: 0.1s; }
+.d2 { transition-delay: 0.2s; }
+.d3 { transition-delay: 0.3s; }
+
+@media (max-width: 960px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { min-height: auto; }
+  .hero-left { padding: 60px 24px; border-right: none; border-bottom: 1px solid var(--border); }
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .usp-strip { flex-direction: column; }
+  .usp-block { border-right: none; border-bottom: 1px solid #2A2A28; }
+  .feat-row { grid-template-columns: 1fr; }
+  .compare-wrap, .features-wrap, .cta-wrap { padding: 60px 24px; }
+  footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="#" class="logo">
+    <span class="logo-mark">⌥</span>
+    Forge<span class="logo-sub">.</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Problems</a></li>
+    <li><a href="#">AI Assistant</a></li>
+    <li><a href="#">Learn</a></li>
+    <li><a href="#">Leaderboard</a></li>
+    <li><a href="#">Pricing</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#" class="btn btn-line">Log in</a>
+    <a href="#" class="btn btn-dark">Sign up free →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">
+      <span class="eyebrow-dot"></span>
+      <span class="eyebrow-text">Now free, forever</span>
+    </div>
+
+    <h1 class="hero-h1">
+      Every locked<br>problem.<br>
+      <em>Free.</em>
+    </h1>
+
+    <p class="hero-body">
+      LeetCode Premium problems. An AI tutor that explains every solution step-by-step. Real interview simulations. All without paying a rupee. Forge is what serious engineers use to get hired.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#" class="btn btn-dark btn-lg">Start solving — it's free</a>
+      <a href="#" class="btn btn-line btn-lg">View problems →</a>
+    </div>
+
+    <div class="hero-proof">
+      <div class="proof-item">
+        <div class="proof-num">2,400+</div>
+        <div class="proof-label">Problems unlocked</div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-num">AI tutor</div>
+        <div class="proof-label">Included free</div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-num">40+</div>
+        <div class="proof-label">Languages</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CODE PANEL -->
+  <div class="hero-right">
+    <div class="panel-tabs">
+      <div class="panel-tab active">Problem</div>
+      <div class="panel-tab">Solution</div>
+      <div class="panel-tab">AI Hint</div>
+    </div>
+    <div class="panel-body">
+
+      <!-- Problem card -->
+      <div class="problem-card">
+        <div class="problem-header">
+          <span class="problem-title">146. LRU Cache</span>
+          <span class="difficulty diff-med">Medium</span>
+        </div>
+        <div class="problem-tags">
+          <span class="tag">Hash Table</span>
+          <span class="tag">Linked List</span>
+          <span class="tag">Design</span>
+          <span class="tag">🔒 Premium — unlocked on Forge</span>
+        </div>
+        <div class="problem-desc">
+          Design a data structure that follows the constraints of a <strong>Least Recently Used (LRU) cache</strong>. Implement the LRUCache class with <code style="font-family:'IBM Plex Mono',monospace; background:var(--warm); padding:1px 5px; border-radius:3px; font-size:0.78rem;">get</code> and <code style="font-family:'IBM Plex Mono',monospace; background:var(--warm); padding:1px 5px; border-radius:3px; font-size:0.78rem;">put</code> operations in O(1) time.
+        </div>
+      </div>
+
+      <!-- Code editor -->
+      <div class="code-editor">
+        <div class="editor-bar">
+          <div class="traffic">
+            <span class="t-r"></span><span class="t-a"></span><span class="t-g"></span>
+          </div>
+          <span class="editor-fname">solution.py</span>
+          <button class="run-btn">▶ Run</button>
+        </div>
+        <div class="code-area">
+          <div class="cl"><span class="ln">1</span><span class="cc"><span class="kw">class</span> <span class="ty">LRUCache</span>:</span></div>
+          <div class="cl"><span class="ln">2</span><span class="cc">  <span class="kw">def</span> <span class="fn">__init__</span>(<span class="nm">self</span>, capacity: <span class="ty">int</span>):</span></div>
+          <div class="cl"><span class="ln">3</span><span class="cc">    <span class="nm">self</span>.cap = capacity</span></div>
+          <div class="cl"><span class="ln">4</span><span class="cc">    <span class="nm">self</span>.cache = {}</span></div>
+          <div class="cl"><span class="ln">5</span><span class="cc">    <span class="nm">self</span>.order = []</span></div>
+          <div class="cl"><span class="ln">6</span><span class="cc"></span></div>
+          <div class="cl"><span class="ln">7</span><span class="cc">  <span class="kw">def</span> <span class="fn">get</span>(<span class="nm">self</span>, key: <span class="ty">int</span>) -> <span class="ty">int</span>:</span></div>
+          <div class="cl"><span class="ln">8</span><span class="cc">    <span class="kw">if</span> key <span class="kw">not in</span> <span class="nm">self</span>.cache:</span></div>
+          <div class="cl"><span class="ln">9</span><span class="cc">      <span class="kw">return</span> <span class="nm">-1</span></span></div>
+          <div class="cl"><span class="ln">10</span><span class="cc">    <span class="nm">self</span>.order.remove(key)</span></div>
+          <div class="cl"><span class="ln">11</span><span class="cc">    <span class="nm">self</span>.order.append(key)<span class="cu"></span></span></div>
+          <div class="cl"><span class="ln">12</span><span class="cc">    <span class="kw">return</span> <span class="nm">self</span>.cache[key]</span></div>
+        </div>
+      </div>
+
+      <!-- AI Hint -->
+      <div class="ai-bubble">
+        <div class="ai-avatar">✦</div>
+        <div class="ai-text">
+          <strong>Forge AI:</strong> Your current approach works but has O(n) time for <code style="font-family:'IBM Plex Mono',monospace;">get</code> due to <code style="font-family:'IBM Plex Mono',monospace;">list.remove()</code>. Use an <strong>OrderedDict</strong> instead — it gives you O(1) move-to-end with <code style="font-family:'IBM Plex Mono',monospace;">move_to_end()</code>. Want me to show you how?
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- USP STRIP -->
+<div class="usp-strip">
+  <div class="usp-block reveal">
+    <div class="usp-kicker">What makes us different</div>
+    <h2 class="usp-head">LeetCode Premium.<br><span>At zero cost.</span></h2>
+    <p class="usp-body">Every locked problem on LeetCode — tagged by company, topic, and difficulty — is available free on Forge. No paywalls. Ever.</p>
+    <div class="usp-tag">✓ 2,400+ problems · updated weekly</div>
+  </div>
+  <div class="usp-block reveal d1">
+    <div class="usp-kicker">Built-in intelligence</div>
+    <h2 class="usp-head">AI that teaches,<br><span>not just answers.</span></h2>
+    <p class="usp-body">Our AI assistant explains the why behind every solution — complexity analysis, edge cases, alternative approaches. Like having a senior engineer on call.</p>
+    <div class="usp-tag">✓ Unlimited AI hints · free tier</div>
+  </div>
+  <div class="usp-block reveal d2">
+    <div class="usp-kicker">Interview ready</div>
+    <h2 class="usp-head">Company-tagged.<br><span>Interview-focused.</span></h2>
+    <p class="usp-body">See exactly which problems Google, Meta, Amazon, and 200+ companies ask. Filter by round type, difficulty, and recency. Know what to study.</p>
+    <div class="usp-tag">✓ 200+ companies tagged</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="features-wrap">
+  <div class="reveal" style="margin-bottom:56px;">
+    <div class="section-eyebrow">Platform</div>
+    <h2 class="section-h">Built for the interview grind.</h2>
+  </div>
+
+  <div class="feat-row reveal">
+    <div class="feat-cell">
+      <div class="feat-num">01 — Editor</div>
+      <h3>IDE-grade code editor</h3>
+      <p>Syntax highlighting, autocomplete, multi-file support, and a real debugger — in the browser. No setup, no config.</p>
+    </div>
+    <div class="feat-cell">
+      <div class="feat-num">02 — Speed</div>
+      <h3>Sub-200ms execution</h3>
+      <p>Sandboxed containers spin up instantly. Run your solution and see output before you've finished thinking about it.</p>
+    </div>
+  </div>
+  <div class="feat-row reveal d1">
+    <div class="feat-cell">
+      <div class="feat-num">03 — AI</div>
+      <h3>Step-by-step AI explanations</h3>
+      <p>Stuck? Ask the AI for a nudge, a full walkthrough, or a complexity breakdown. It adapts to your level.</p>
+    </div>
+    <div class="feat-cell">
+      <div class="feat-num">04 — Mock</div>
+      <h3>Timed mock interviews</h3>
+      <p>Simulate real interview conditions. 45-minute clock, no hints, real company problem sets.</p>
+    </div>
+  </div>
+  <div class="feat-row reveal d2">
+    <div class="feat-cell">
+      <div class="feat-num">05 — Progress</div>
+      <h3>Track your weak spots</h3>
+      <p>Heatmaps, topic breakdowns, and streak tracking show exactly where to spend your next hour.</p>
+    </div>
+    <div class="feat-cell">
+      <div class="feat-num">06 — Community</div>
+      <h3>Solutions & discussions</h3>
+      <p>Every problem has a discussion board. See how others solved it, share your approach, learn faster together.</p>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE -->
+<div class="compare-wrap">
+  <div class="compare-inner reveal">
+    <div class="section-eyebrow">Comparison</div>
+    <h2 class="section-h">Why engineers switch to Forge.</h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th class="col-forge"><span class="col-head" style="color:var(--gold);">Forge</span><br><span style="font-size:0.6rem;font-weight:400;">Free forever</span></th>
+          <th><span class="col-head">LeetCode</span><br><span style="font-size:0.6rem;font-weight:400;">Premium $35/mo</span></th>
+          <th><span class="col-head">HackerRank</span><br><span style="font-size:0.6rem;font-weight:400;">Free</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Premium / locked problems</td>
+          <td class="col-forge"><span class="check">✓</span> All 2,400+</td>
+          <td><span class="price-paid">$35/mo</span></td>
+          <td><span class="cross">✕</span></td>
+        </tr>
+        <tr>
+          <td>AI assistant (hints & explanations)</td>
+          <td class="col-forge"><span class="check">✓</span> Unlimited</td>
+          <td><span class="price-paid">Limited</span></td>
+          <td><span class="cross">✕</span></td>
+        </tr>
+        <tr>
+          <td>Company-tagged problems</td>
+          <td class="col-forge"><span class="check">✓</span> 200+ companies</td>
+          <td><span class="price-paid">Premium only</span></td>
+          <td><span class="cross">✕</span></td>
+        </tr>
+        <tr>
+          <td>Mock interview simulator</td>
+          <td class="col-forge"><span class="check">✓</span> Free</td>
+          <td><span class="price-paid">Premium only</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td>In-browser IDE with debugger</td>
+          <td class="col-forge"><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">✕</span></td>
+        </tr>
+        <tr>
+          <td>Cost</td>
+          <td class="col-forge"><span class="price-free">₹0</span></td>
+          <td><span class="price-paid">$35/month</span></td>
+          <td><span class="price-paid">Free (limited)</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-wrap reveal">
+  <div class="section-eyebrow" style="text-align:center;">Get hired</div>
+  <h2 class="cta-h">Stop paying for<br>what should be <em>free.</em></h2>
+  <p class="cta-sub">Join 50,000+ engineers who prep smarter with Forge. No credit card. No catch.</p>
+  <div class="cta-form">
+    <input class="cta-input" type="email" placeholder="your@email.com">
+    <a href="#" class="btn btn-dark" style="padding:12px 24px; border-radius:7px; white-space:nowrap;">Get started →</a>
+  </div>
+  <p style="margin-top:14px; font-size:0.75rem; color:var(--ink-4);">Free forever · No credit card needed</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="foot-logo">Forge<span>.</span></div>
+    <div class="foot-copy">© 2026 Forge Technologies. All rights reserved.</div>
+  </div>
+  <div class="foot-links">
+    <a href="#">Problems</a>
+    <a href="#">AI Assistant</a>
+    <a href="#">Blog</a>
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Twitter</a>
+    <a href="#">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  // Tab switching
+  document.querySelectorAll('.panel-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.panel-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  // Scroll reveal
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
